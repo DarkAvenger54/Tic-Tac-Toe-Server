@@ -55,7 +55,10 @@ public class GameServerUI extends JFrame {
     }
 
     private void thisWindowClosing(WindowEvent e) {
-        gameServer.stop();
+        if(gameServer != null)
+        {
+            gameServer.stop();
+        }
     }
 
     private void initComponents() {
