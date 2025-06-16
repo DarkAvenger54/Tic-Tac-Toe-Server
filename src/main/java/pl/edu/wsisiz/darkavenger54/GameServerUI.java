@@ -13,7 +13,7 @@ import javax.swing.GroupLayout;
  */
 public class GameServerUI extends JFrame {
     private GameServer gameServer;
-    boolean isStarted = false;
+    private boolean isStarted = false;
     public GameServerUI() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -44,6 +44,7 @@ public class GameServerUI extends JFrame {
     }
 
     private void stop(ActionEvent e) {
+        gameServer.stop();
         startButton.setEnabled(true);
         stopButton.setEnabled(false);
     }
@@ -51,6 +52,10 @@ public class GameServerUI extends JFrame {
     public JTextArea getServerTextArea()
     {
         return serverTextArea;
+    }
+
+    private void thisWindowClosing(WindowEvent e) {
+        gameServer.stop();
     }
 
     private void initComponents() {
@@ -65,6 +70,12 @@ public class GameServerUI extends JFrame {
 
         //======== this ========
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                thisWindowClosing(e);
+            }
+        });
         var contentPane = getContentPane();
 
         //======== panel1 ========
